@@ -141,14 +141,10 @@ public class TagChecker extends NodeTraversalChecker {
             while (n != null) {
                 if (selector.getTagName().equals(n.getNodeName()) ||
                         selector.getTagName().equals(Selector.UNIVERSAL_TAG)) {
-                    break;
+                    result.add(n);
                 }
                 
                 n = DOMHelper.getNextSiblingElement(n);
-            }
-
-            if (n != null) {
-                result.add(n);
             }
         }
     }

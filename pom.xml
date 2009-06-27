@@ -4,7 +4,7 @@
 	<groupId>se.fishtank</groupId>
 	<artifactId>css-selectors</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>css-selectors</name>
 	<url>http://www.fishtank.se</url>
 	<dependencies>

@@ -1,0 +1,10 @@
+css-selectors CHANGES
+=====================
+
+Version 1.0.1-SNAPSHOT
+----------------------
+
+Combinators:
+
+ * Fixed a bug where the General Sibling Combinator handling only returned the first match found.
+ 
