@@ -102,10 +102,6 @@ public class DOMNodeSelector implements NodeSelector<Node> {
         for (Selector selector : parts) {
             NodeTraversalChecker checker = new TagChecker(selector);
             result = checker.check(result, root);
-            if (result.isEmpty()) {
-                // Bail out early.
-                return result;
-            }
             
             if (selector.hasSpecifiers()) {
                 for (Specifier specifier : selector.getSpecifiers()) {
