@@ -19,6 +19,7 @@ public class DOMNodeSelectorTest {
     
     static {
         testDataMap.put("*", 251);
+        testDataMap.put(":root", 1);
         testDataMap.put(":empty", 2);
         testDataMap.put("div:first-child", 51);
         testDataMap.put("div:nth-child(even)", 106);
@@ -85,4 +86,13 @@ public class DOMNodeSelectorTest {
         }
     }
     
+    @Test
+    public void checkRoot() throws NodeSelectorException {
+        Assert.assertEquals("html", nodeSelector.querySelector(":root").getNodeName());
+        DOMNodeSelector subSelector = new DOMNodeSelector(nodeSelector.querySelector("div#scene1"));
+        Set<Node> subRoot = subSelector.querySelectorAll(":root");
+        Assert.assertEquals(1, subRoot.size());
+        Assert.assertEquals("scene1", subRoot.iterator().next().getAttributes().getNamedItem("id").getTextContent());
+        Assert.assertEquals((int) testDataMap.get("div#scene1 div.dialog div"), (int) subSelector.querySelectorAll(":root div.dialog div").size());
+    }
 }
