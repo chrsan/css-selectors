@@ -88,7 +88,10 @@ public class DOMNodeSelectorTest {
     
     @Test
     public void checkRoot() throws NodeSelectorException {
-        Assert.assertEquals("html", nodeSelector.querySelector(":root").getNodeName());
+        Node root = nodeSelector.querySelector(":root");
+        Assert.assertEquals(Node.ELEMENT_NODE, root.getNodeType());
+        Assert.assertEquals("html", root.getNodeName());
+        
         DOMNodeSelector subSelector = new DOMNodeSelector(nodeSelector.querySelector("div#scene1"));
         Set<Node> subRoot = subSelector.querySelectorAll(":root");
         Assert.assertEquals(1, subRoot.size());
