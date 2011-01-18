@@ -96,6 +96,6 @@ public class DOMNodeSelectorTest {
         Set<Node> subRoot = subSelector.querySelectorAll(":root");
         Assert.assertEquals(1, subRoot.size());
         Assert.assertEquals("scene1", subRoot.iterator().next().getAttributes().getNamedItem("id").getTextContent());
-        Assert.assertEquals((int) testDataMap.get("div#scene1 div.dialog div"), (int) subSelector.querySelectorAll(":root div.dialog div").size());
+        Assert.assertEquals((int) testDataMap.get("div#scene1 div.dialog div"), subSelector.querySelectorAll(":root div.dialog div").size());
     }
 }
