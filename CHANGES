@@ -1,6 +1,13 @@
 css-selectors CHANGES
 =====================
 
+Version 1.0.2
+-------------
+
+Pseudo-classes:
+
+ * Added support for the :root pseudo-class fixed by hakos.
+
 Version 1.0.1-SNAPSHOT
 ----------------------
 

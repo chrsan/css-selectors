@@ -2848,11 +2848,9 @@ case 1:
 	case 17:
 // line 28 "Scanner.java.rl"
 	{ {stack[top++] = cs; cs = 299; _goto_targ = 2; if (true) continue _goto;} }
-	break;
 	case 18:
 // line 42 "Scanner.java.rl"
 	{ {cs = stack[--top];_goto_targ = 2; if (true) continue _goto;} }
-	break;
 // line 2857 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
 			}
 		}

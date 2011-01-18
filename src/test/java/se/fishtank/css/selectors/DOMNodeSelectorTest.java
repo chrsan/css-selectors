@@ -101,4 +101,5 @@ public class DOMNodeSelectorTest {
         Node meta = nodeSelector.querySelector(":root > head > meta");
         Assert.assertEquals(meta, new DOMNodeSelector(meta).querySelector(":root"));
     }
+    
 }

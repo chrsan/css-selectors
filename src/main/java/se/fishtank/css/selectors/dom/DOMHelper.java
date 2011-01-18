@@ -18,7 +18,7 @@ public class DOMHelper {
     }
 
     /**
-     * Get the first child node that also is an element node.
+     * Get the first child node that is an element node.
      * 
      * @param node The node whose children should be iterated.
      * @return The first child element or {@code null}.

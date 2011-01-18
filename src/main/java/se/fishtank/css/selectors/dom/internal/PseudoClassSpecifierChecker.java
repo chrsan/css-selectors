@@ -230,8 +230,8 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
      */
     private void addRootElement() {
         if (root.getNodeType() == Node.DOCUMENT_NODE) {
-            // Get the single element child of the document node
-            // There could be a doctype node and comment nodes that we must skip
+            // Get the single element child of the document node.
+            // There could be a doctype node and comment nodes that we must skip.
             Element element = DOMHelper.getFirstChildElement(root);
             Assert.notNull(element, "there should be a root element!");
             result.add(element);
@@ -240,4 +240,5 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
             result.add(root);
         }
     }
+    
 }

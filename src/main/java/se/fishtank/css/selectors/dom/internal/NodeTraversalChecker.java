@@ -18,7 +18,7 @@ public abstract class NodeTraversalChecker {
      * the nodes that passed the check.
      * 
      * @param nodes The nodes to check.
-     * @param root The root node
+     * @param root The root node.
      * @return A {@link Set} of nodes that passed the check.
      * @throws NodeSelectorException If an error occurred while performing the check.
      */
