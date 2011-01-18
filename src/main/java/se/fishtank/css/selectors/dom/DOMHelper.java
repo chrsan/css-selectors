@@ -2,6 +2,7 @@ package se.fishtank.css.selectors.dom;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Helper methods for DOM operations.
@@ -14,6 +15,23 @@ public class DOMHelper {
      * Private CTOR.
      */
     private DOMHelper() {
+    }
+
+    /**
+     * Get the first child node that also is an element node.
+     * 
+     * @param node The node whose children should be iterated.
+     * @return The first child element or {@code null}.
+     */
+    public static Element getFirstChildElement(Node node) {
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                return (Element) children.item(i);
+            }
+        }
+        
+        return null;
     }
     
     /**

@@ -3,6 +3,7 @@ package se.fishtank.css.selectors.dom.internal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -229,8 +230,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
      */
     private void addRootElement() {
         if (root.getNodeType() == Node.DOCUMENT_NODE) {
-            // The root is the single child of the document node
-            result.add(root.getChildNodes().item(0));
+            // Get the single element child of the document node
+            // There could be a doctype node and comment nodes that we must skip
+            Element element = DOMHelper.getFirstChildElement(root);
+            Assert.notNull(element, "there should be a root element!");
+            result.add(element);
         } else {
             Assert.isTrue(root.getNodeType() == Node.ELEMENT_NODE, "root must be a document or element node!");
             result.add(root);
