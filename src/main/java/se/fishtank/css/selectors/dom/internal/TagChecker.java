@@ -45,22 +45,22 @@ public class TagChecker extends NodeTraversalChecker {
      * {@inheritDoc}
      */
     @Override
-    public Set<Node> check(Set<Node> nodes) throws NodeSelectorException {
+    public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
         Assert.notNull(nodes, "nodes is null!");
         this.nodes = nodes;
         result = new LinkedHashSet<Node>();
         switch (selector.getCombinator()) {
         case DESCENDANT:
-            getDescentantElements();
+            addDescentantElements();
             break;
         case CHILD:
-            getChildElements();
+            addChildElements();
             break;
         case ADJACENT_SIBLING:
-            getAdjacentSiblingElements();
+            addAdjacentSiblingElements();
             break;
         case GENERAL_SIBLING:
-            getGeneralSiblingElements();
+            addGeneralSiblingElements();
             break;
         }
         
@@ -68,13 +68,13 @@ public class TagChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get descendant elements.
+     * Add descendant elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#descendant-combinators">Descendant combinator</a>
      * 
      * @throws NodeSelectorException If one of the nodes have an illegal type.
      */
-    private void getDescentantElements() throws NodeSelectorException {
+    private void addDescentantElements() throws NodeSelectorException {
         for (Node node : nodes) {
             NodeList nl;
             if (node.getNodeType() == Node.DOCUMENT_NODE) {
@@ -92,11 +92,11 @@ public class TagChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get child elements.
+     * Add child elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#child-combinators">Child combinators</a>
      */
-    private void getChildElements() {
+    private void addChildElements() {
         for (Node node : nodes) {
             NodeList nl = node.getChildNodes();
             for (int i = 0; i < nl.getLength(); i++) {
@@ -114,11 +114,11 @@ public class TagChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get adjacent sibling elements.
+     * Add adjacent sibling elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#adjacent-sibling-combinators">Adjacent sibling combinator</a>
      */
-    private void getAdjacentSiblingElements() {
+    private void addAdjacentSiblingElements() {
         for (Node node : nodes) {
             Node n = DOMHelper.getNextSiblingElement(node);
             if (n != null) {
@@ -131,11 +131,11 @@ public class TagChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get general sibling elements.
+     * Add general sibling elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#general-sibling-combinators">General sibling combinator</a>
      */
-    private void getGeneralSiblingElements() {
+    private void addGeneralSiblingElements() {
         for (Node node : nodes) {
             Node n = DOMHelper.getNextSiblingElement(node);
             while (n != null) {

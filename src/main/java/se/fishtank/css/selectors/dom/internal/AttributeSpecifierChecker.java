@@ -36,7 +36,7 @@ public class AttributeSpecifierChecker extends NodeTraversalChecker {
      * {@inheritDoc}
      */
     @Override
-    public Set<Node> check(Set<Node> nodes) throws NodeSelectorException {
+    public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
         Assert.notNull(nodes, "nodes is null!");
         Set<Node> result = new LinkedHashSet<Node>();
         for (Node node : nodes) {

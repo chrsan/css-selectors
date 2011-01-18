@@ -24,6 +24,9 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     
     /** The set of nodes to check. */
     private Set<Node> nodes;
+
+    /** The root node. */
+    private Node root;
     
     /** The result of the checks. */
     private Set<Node> result;
@@ -42,38 +45,42 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
      * {@inheritDoc}
      */
     @Override
-    public Set<Node> check(Set<Node> nodes) throws NodeSelectorException {
+    public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
         Assert.notNull(nodes, "nodes is null!");
+        Assert.notNull(root, "root is null!");
         this.nodes = nodes;
+        this.root = root;
         result = new LinkedHashSet<Node>();
         String value = specifier.getValue();
         if ("empty".equals(value)) {
-            getEmptyElements();
+            addEmptyElements();
         } else if ("first-child".equals(value)) {
-            getFirstChildElements();
+            addFirstChildElements();
         } else if ("first-of-type".equals(value)) {
-            getFirstOfType();
+            addFirstOfType();
         } else if ("last-child".equals(value)) {
-            getLastChildElements();
+            addLastChildElements();
         } else if ("last-of-type".equals(value)) {
-            getLastOfType();
+            addLastOfType();
         } else if ("only-child".equals(value)) {
-            getOnlyChildElements();
+            addOnlyChildElements();
         } else if ("only-of-type".equals(value)) {
-            getOnlyOfTypeElements();
+            addOnlyOfTypeElements();
+        } else if ("root".equals(value)) {
+            addRootElement();
         } else {
             throw new NodeSelectorException("Unknown pseudo class: " + value);
         }
         
         return result;
     }
-    
+
     /**
-     * Get {@code :empty} elements.
+     * Add {@code :empty} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#empty-pseudo"><code>:empty</code> pseudo-class</a>
      */
-    private void getEmptyElements() {
+    private void addEmptyElements() {
         for (Node node : nodes) {
             boolean empty = true;
             NodeList nl = node.getChildNodes();
@@ -99,11 +106,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :first-child} elements.
+     * Add {@code :first-child} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#first-child-pseudo"><code>:first-child</code> pseudo-class</a>
      */
-    private void getFirstChildElements() {
+    private void addFirstChildElements() {
         for (Node node : nodes) {
             if (DOMHelper.getPreviousSiblingElement(node) == null) {
                 result.add(node);
@@ -112,11 +119,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :first-of-type} elements.
+     * Add {@code :first-of-type} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#first-of-type-pseudo"><code>:first-of-type</code> pseudo-class</a>
      */
-    private void getFirstOfType() {
+    private void addFirstOfType() {
         for (Node node : nodes) {
             Node n = DOMHelper.getPreviousSiblingElement(node);
             while (n != null) {
@@ -134,11 +141,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
 
     /**
-     * Get {@code :last-child} elements.
+     * Add {@code :last-child} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#last-child-pseudo"><code>:last-child</code> pseudo-class</a>
      */
-    private void getLastChildElements() {
+    private void addLastChildElements() {
         for (Node node : nodes) {
             if (DOMHelper.getNextSiblingElement(node) == null) {
                 result.add(node);
@@ -147,11 +154,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :last-of-type} elements.
+     * Add {@code :last-of-type} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#last-of-type-pseudo"><code>:last-of-type</code> pseudo-class</a>
      */
-    private void getLastOfType() {
+    private void addLastOfType() {
         for (Node node : nodes) {
             Node n = DOMHelper.getNextSiblingElement(node);
             while (n != null) {
@@ -169,11 +176,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :only-child} elements.
+     * Add {@code :only-child} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#only-child-pseudo"><code>:only-child</code> pseudo-class</a>
      */
-    private void getOnlyChildElements() {
+    private void addOnlyChildElements() {
         for (Node node : nodes) {
             if (DOMHelper.getPreviousSiblingElement(node) == null &&
                     DOMHelper.getNextSiblingElement(node) == null) {
@@ -183,11 +190,11 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :only-of-type} elements.
+     * Add {@code :only-of-type} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#only-of-type-pseudo"><code>:only-of-type</code> pseudo-class</a>
      */
-    private void getOnlyOfTypeElements() {
+    private void addOnlyOfTypeElements() {
         for (Node node : nodes) {
             Node n = DOMHelper.getPreviousSiblingElement(node);
             while (n != null) {
@@ -215,4 +222,18 @@ public class PseudoClassSpecifierChecker extends NodeTraversalChecker {
         }
     }
 
+    /**
+     * Add the {@code :root} element.
+     * 
+     * @see <a href="http://www.w3.org/TR/css3-selectors/#root-pseudo"><code>:root</code> pseudo-class</a>
+     */
+    private void addRootElement() {
+        if (root.getNodeType() == Node.DOCUMENT_NODE) {
+            // The root is the single child of the document node
+            result.add(root.getChildNodes().item(0));
+        } else {
+            Assert.isTrue(root.getNodeType() == Node.ELEMENT_NODE, "root must be a document or element node!");
+            result.add(root);
+        }
+    }
 }

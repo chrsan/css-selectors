@@ -41,19 +41,19 @@ public class PseudoNthSpecifierChecker extends NodeTraversalChecker {
      * {@inheritDoc}
      */
     @Override
-    public Set<Node> check(Set<Node> nodes) throws NodeSelectorException {
+    public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
         Assert.notNull(nodes, "nodes is null!");
         this.nodes = nodes;
         result = new LinkedHashSet<Node>();
         String value = specifier.getValue();
         if ("nth-child".equals(value)) {
-            getNthChild();
+            addNthChild();
         } else if ("nth-last-child".equals(value)) {
-            getNthLastChild();
+            addNthLastChild();
         } else if ("nth-of-type".equals(value)) {
-            getNthOfType();
+            addNthOfType();
         } else if ("nth-last-of-type".equals(value)) {
-            getNthLastOfType();
+            addNthLastOfType();
         } else {
             throw new NodeSelectorException("Unknown pseudo nth class: " + value);
         }
@@ -62,11 +62,11 @@ public class PseudoNthSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get the {@code :nth-child} elements.
+     * Add the {@code :nth-child} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#nth-child-pseudo"><code>:nth-child</code> pseudo-class</a>
      */
-    private void getNthChild() {
+    private void addNthChild() {
         for (Node node : nodes) {
             int count = 1;
             Node n = DOMHelper.getPreviousSiblingElement(node);
@@ -82,11 +82,11 @@ public class PseudoNthSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :nth-last-child} elements.
+     * Add {@code :nth-last-child} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#nth-last-child-pseudo"><code>:nth-last-child</code> pseudo-class</a>
      */
-    private void getNthLastChild() {
+    private void addNthLastChild() {
         for (Node node : nodes) {
             int count = 1;
             Node n = DOMHelper.getNextSiblingElement(node);
@@ -102,11 +102,11 @@ public class PseudoNthSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code :nth-of-type} elements.
+     * Add {@code :nth-of-type} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#nth-of-type-pseudo"><code>:nth-of-type</code> pseudo-class</a>
      */
-    private void getNthOfType() {
+    private void addNthOfType() {
         for (Node node : nodes) {
             int count = 1;
             Node n = DOMHelper.getPreviousSiblingElement(node);
@@ -125,11 +125,11 @@ public class PseudoNthSpecifierChecker extends NodeTraversalChecker {
     }
     
     /**
-     * Get {@code nth-last-of-type} elements.
+     * Add {@code nth-last-of-type} elements.
      * 
      * @see <a href="http://www.w3.org/TR/css3-selectors/#nth-last-of-type-pseudo"><code>:nth-last-of-type</code> pseudo-class</a>
      */
-    private void getNthLastOfType() {
+    private void addNthLastOfType() {
         for (Node node : nodes) {
             int count = 1;
             Node n = DOMHelper.getNextSiblingElement(node);

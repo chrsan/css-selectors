@@ -101,7 +101,7 @@ public class DOMNodeSelector implements NodeSelector<Node> {
         result.add(root);
         for (Selector selector : parts) {
             NodeTraversalChecker checker = new TagChecker(selector);
-            result = checker.check(result);
+            result = checker.check(result, root);
             if (result.isEmpty()) {
                 // Bail out early.
                 return result;
@@ -125,7 +125,7 @@ public class DOMNodeSelector implements NodeSelector<Node> {
                         final Set<Node> negationNodes = checkNegationSpecifier((NegationSpecifier) specifier);
                         checker = new NodeTraversalChecker() {
                             @Override
-                            public Set<Node> check(Set<Node> nodes) throws NodeSelectorException {
+                            public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
                                 Set<Node> set = new LinkedHashSet<Node>(nodes);
                                 set.removeAll(negationNodes);
                                 return set;
@@ -135,7 +135,7 @@ public class DOMNodeSelector implements NodeSelector<Node> {
                         break;
                     }
                     
-                    result = checker.check(result);
+                    result = checker.check(result, root);
                     if (result.isEmpty()) {
                         // Bail out early.
                         return result;
