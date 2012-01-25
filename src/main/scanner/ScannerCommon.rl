@@ -33,7 +33,7 @@
     type_selector = element_name;
     simple_selector = ( ( type_selector | universal ) specifier* | specifier+ ) %sel s*;
     selector = simple_selector ( combinator simple_selector )*;
-    selectors = ( selector >_group %group ) <: ( ',' s* selector >_group %group )*;
+    selectors = ( selector >_group %group ) <: ( ',' s* selector >_group %group )**;
     
     negation_specifier = ( hash | clazz | attrib | pseudo_class | pseudo_nth );
     # We are a bit relaxed on the spec here. According to the spec it should only be one of

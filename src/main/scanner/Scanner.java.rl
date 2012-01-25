@@ -118,7 +118,7 @@ public class Scanner {
 	}
 	
 	action mark {
-		mark = p;
+	    mark = p;
 	}
 	
 	action _negation {
@@ -131,7 +131,7 @@ public class Scanner {
 	}
 	
 	action pseudo_class {
-        specifiers.add(new PseudoClassSpecifier(getSlice(mark, p)));	  
+            specifiers.add(new PseudoClassSpecifier(getSlice(mark, p)));	  
 	}
 	
 	action pseudo_nth_arg {
@@ -199,8 +199,8 @@ public class Scanner {
 		
 	    int mark = 0;
 	    
-	    List<List<Selector>> selectors = new LinkedList<List<Selector>>();
-	    List<Selector> parts = new LinkedList<Selector>();
+	    LinkedList<List<Selector>> selectors = new LinkedList<List<Selector>>();
+            List<Selector> parts = null;
 
 	    String tagName = Selector.UNIVERSAL_TAG;
 	    String negationTagName = Selector.UNIVERSAL_TAG;

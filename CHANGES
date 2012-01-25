@@ -1,6 +1,13 @@
 css-selectors CHANGES
 =====================
 
+Version 1.0.3
+
+Scanner:
+
+ * Fixed issue where the last selectors were added twice to the selector groups. I.e.
+   the last selectors were checked twice and caused unnecessary tree walking.
+
 Version 1.0.2
 -------------
 
