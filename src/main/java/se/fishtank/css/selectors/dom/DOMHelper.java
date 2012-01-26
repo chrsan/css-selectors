@@ -1,3 +1,6 @@
+/**
+ * Copyright (c) 2009-2012, Christer Sandberg
+ */
 package se.fishtank.css.selectors.dom;
 
 import org.w3c.dom.Element;

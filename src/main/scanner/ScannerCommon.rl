@@ -1,4 +1,5 @@
 %%{
+    # Copyright (c) 2009-2012, Christer Sandberg
 
     machine ScannerCommon;
     

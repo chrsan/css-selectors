@@ -1,3 +1,6 @@
+/**
+ * Copyright (c) 2009-2012, Christer Sandberg
+ */
 package se.fishtank.css.selectors.specifier;
 
 import se.fishtank.css.selectors.Selector;

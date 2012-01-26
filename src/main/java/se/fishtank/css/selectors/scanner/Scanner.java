@@ -1,4 +1,6 @@
-
+/**
+ * Copyright (c) 2009-2012, Christer Sandberg
+ */
 // line 1 "Scanner.java.rl"
 package se.fishtank.css.selectors.scanner;
 
