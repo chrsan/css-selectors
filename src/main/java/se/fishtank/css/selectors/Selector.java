@@ -28,7 +28,7 @@ public class Selector {
      */
     public static enum Combinator {
         DESCENDANT, CHILD, ADJACENT_SIBLING, GENERAL_SIBLING
-    };
+    }
 
     /** Tag name. */
     private final String tagName;

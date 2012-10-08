@@ -1,17 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 	<groupId>se.fishtank</groupId>
 	<artifactId>css-selectors</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>css-selectors</name>
 	<url>https://github.com/chrsan/css-selectors</url>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>git@github.com:chrsan/css-selectors.git</url>
+        <connection>scm:git:git@github.com:chrsan/css-selectors.git</connection>
+        <developerConnection>scm:git:git@github.com:chrsan/css-selectors.git</developerConnection>
+    </scm>
     <developers>
         <developer>
             <id>chrsan</id>
             <name>Christer Sandberg</name>
             <email>chrsan@gmail.com</email>
+            <url>https://github.com/chrsan</url>
         </developer>
     </developers>
 	<dependencies>
