@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import se.fishtank.css.selectors.dom.DOMNodeSelector;
+import se.fishtank.css.selectors.dom2.DOMNodeSelector;
 
 public class DOMNodeSelectorTest {
     
@@ -80,8 +80,13 @@ public class DOMNodeSelectorTest {
     @Test
     public void checkSelectors() throws Exception {
         for (Map.Entry<String, Integer> entry : testDataMap.entrySet()) {
-            System.out.printf("selector: %s, expected: %d%n", entry.getKey(), entry.getValue());
-            Set<Node> result = nodeSelector.querySelectorAll(entry.getKey());
+//            System.out.printf("selector: %s, expected: %d%n", entry.getKey(), entry.getValue());
+        	Set<Node> result;
+        	try {
+                result = nodeSelector.querySelectorAll(entry.getKey());
+        	} catch(Exception ex) {
+        		throw new RuntimeException(entry.getKey(), ex);
+        	}
             Assert.assertEquals(entry.getKey(), (int) entry.getValue(), (int) result.size());
         }
     }
@@ -92,14 +97,17 @@ public class DOMNodeSelectorTest {
         Assert.assertEquals(Node.ELEMENT_NODE, root.getNodeType());
         Assert.assertEquals("html", root.getNodeName());
         
-        DOMNodeSelector subSelector = new DOMNodeSelector(nodeSelector.querySelector("div#scene1"));
+        Node scene1 = nodeSelector.querySelector("div#scene1");
+        Assert.assertNotNull(scene1);
+		DOMNodeSelector subSelector = new DOMNodeSelector(scene1);
         Set<Node> subRoot = subSelector.querySelectorAll(":root");
         Assert.assertEquals(1, subRoot.size());
         Assert.assertEquals("scene1", subRoot.iterator().next().getAttributes().getNamedItem("id").getTextContent());
         Assert.assertEquals((int) testDataMap.get("div#scene1 div.dialog div"), subSelector.querySelectorAll(":root div.dialog div").size());
         
         Node meta = nodeSelector.querySelector(":root > head > meta");
-        Assert.assertEquals(meta, new DOMNodeSelector(meta).querySelector(":root"));
+        Node metaRoot = new DOMNodeSelector(meta).querySelector(":root");
+		Assert.assertEquals(meta, metaRoot);
     }
     
 }

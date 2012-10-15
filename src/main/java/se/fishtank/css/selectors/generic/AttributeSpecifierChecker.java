@@ -26,59 +26,60 @@ public class AttributeSpecifierChecker<Node> extends AbstractChecker<Node> {
 	    Assert.notNull(nodes, "nodes is null!");
 	    Collection<Node> result = new LinkedHashSet<Node>();
 	    for (Node node : nodes) {
-	    	// It just have to be present.
 	        String name = specifier.getName();
-			if (specifier.getValue() == null) {
-				if (helper.hasAttribute(node, name))
-					result.add(node);
+			Node attribute = helper.getAttribute(node, name);
+			
+			if (attribute==null)
+				continue;
+
+			// It just have to be present.
+			if (specifier.getValue() == null && attribute!=null) {
+				result.add(node);
 	            continue;
 	        }
-	        
-	        Collection<Node> attributes = helper.getAttributes(node);
-	        for (Node element : attributes) {
-	        	String value = helper.getValue(element);
-	            String spec = specifier.getValue();
-	            switch (specifier.getMatch()) {
-	            case EXACT:
-	                if (value.equals(spec)) {
-	                    result.add(node);
-	                }
-	                
-	                break;
-	            case HYPHEN:
-	                if (value.equals(spec) || value.startsWith(spec + '-')) {
-	                    result.add(node);
-	                }
-	                
-	                break;
-	            case PREFIX:
-	                if (value.startsWith(spec)) {
-	                    result.add(node);
-	                }
-	                
-	                break;
-	            case SUFFIX:
-	                if (value.endsWith(spec)) {
-	                    result.add(node);
-	                }
-	                
-	                break;
-	            case CONTAINS:
-	                if (value.contains(spec)) {
-	                    result.add(node);
-	                }
-	                
-	                break;
-	            case LIST:
-	                for (String v : value.split("\\s+")) {
-	                    if (v.equals(spec)) {
-	                        result.add(node);
-	                    }
-	                }
-	                
-	                break;
-	            }
-	        }
+
+        	String value = helper.getValue(attribute);
+            String spec = specifier.getValue();
+            switch (specifier.getMatch()) {
+            case EXACT:
+                if (value.equals(spec)) {
+                    result.add(node);
+                }
+                
+                break;
+            case HYPHEN:
+                if (value.equals(spec) || value.startsWith(spec + '-')) {
+                    result.add(node);
+                }
+                
+                break;
+            case PREFIX:
+                if (value.startsWith(spec)) {
+                    result.add(node);
+                }
+                
+                break;
+            case SUFFIX:
+                if (value.endsWith(spec)) {
+                    result.add(node);
+                }
+                
+                break;
+            case CONTAINS:
+                if (value.contains(spec)) {
+                    result.add(node);
+                }
+                
+                break;
+            case LIST:
+                for (String v : value.split("\\s+")) {
+                    if (v.equals(spec)) {
+                        result.add(node);
+                    }
+                }
+                
+                break;
+            }
 	    }
 	    
 	    return result;

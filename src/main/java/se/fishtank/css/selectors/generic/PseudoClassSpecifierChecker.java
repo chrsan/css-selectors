@@ -65,7 +65,7 @@ public class PseudoClassSpecifierChecker<Node> extends AbstractChecker<Node> {
      */
     private void addEmptyElements() {
         for (Node node : nodes) {
-        	if (helper.getChildNodes(node).isEmpty())
+        	if (helper.isEmpty(node))
         		result.add(node);
         }
     }
@@ -154,11 +154,8 @@ public class PseudoClassSpecifierChecker<Node> extends AbstractChecker<Node> {
      * @see <a href="http://www.w3.org/TR/css3-selectors/#root-pseudo"><code>:root</code> pseudo-class</a>
      */
     private void addRootElement() {
-        for (Node node : nodes) {
-        	Node root = helper.getRoot(node);
-        	
-        	if (root != null)
-        		result.add(root);
-        }
+    	Node root = helper.getRoot();
+    	if (root != null)
+    		result.add(root);
     }
 }

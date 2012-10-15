@@ -24,6 +24,8 @@ public class NodeSelector<Node> {
 	private final NodeHelper<Node> helper;
 
 	public NodeSelector(NodeHelper<Node> helper, Node node) {
+        Assert.notNull(node, "root is null!");
+        Assert.notNull(helper, "helper is null!");
 		this.root = node;
 		this.helper = helper;
 	}
@@ -78,7 +80,7 @@ public class NodeSelector<Node> {
         result.add(root);
         
         for (Selector selector : parts) {
-            Checker<Node> checker = new TagMatcher<Node>(helper, selector);
+            Checker<Node> checker = new TagChecker<Node>(helper, selector);
             result = checker.check(result);
             if (selector.hasSpecifiers()) {
                 for (Specifier specifier : selector.getSpecifiers()) {

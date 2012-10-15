@@ -8,23 +8,23 @@ import se.fishtank.css.selectors.Selector;
 import se.fishtank.css.util.Assert;
 
 
-public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
+public class TagChecker<Node> extends AbstractChecker<Node> {
    
     /** The selector to check against. */
     protected final Selector selector;
     
     /** The set of nodes to check. */
-    protected Collection<JsonNode> nodes;
+    protected Collection<Node> nodes;
     
     /** The result of the checks. */
-    protected Collection<JsonNode> result;
+    protected Collection<Node> result;
     
     /**
      * Create a new instance.
      * 
      * @param selector The selector to check against.
      */
-    public TagMatcher(NodeHelper<JsonNode> helper, Selector selector) {
+    public TagChecker(NodeHelper<Node> helper, Selector selector) {
     	super(helper);
         Assert.notNull(selector, "selector is null!");
         this.selector = selector;
@@ -34,11 +34,11 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
      * {@inheritDoc}
      */
     @Override
-    public Collection<JsonNode> check(Collection<JsonNode> nodes) {
+    public Collection<Node> check(Collection<Node> nodes) {
         Assert.notNull(nodes, "nodes is null!");
         this.nodes = nodes;
 
-        result = new LinkedHashSet<JsonNode>();
+        result = new LinkedHashSet<Node>();
         switch (selector.getCombinator()) {
         case DESCENDANT:
             addDescendantElements();
@@ -65,12 +65,12 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
      * @throws NodeSelectorException If one of the nodes have an illegal type.
      */
     private void addDescendantElements() {
-        for (JsonNode node : nodes) {
-        	Collection<JsonNode> nodes = new LinkedHashSet<JsonNode>();
-        	nodes.add(node);
+        for (Node node : nodes) {
+        	Collection<Node> nodes = new LinkedHashSet<Node>();
+
         	nodes.addAll(helper.getDescendentNodes(node));
         	
-        	for(JsonNode n : nodes) {
+        	for(Node n : nodes) {
         		if (matchTag(n))
         			result.add(n);
         	}
@@ -83,18 +83,18 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
      * @see <a href="http://www.w3.org/TR/css3-selectors/#child-combinators">Child combinators</a>
      */
     private void addChildElements() {
-        for (JsonNode node : nodes) {
-        	Collection<? extends JsonNode> childNodes = helper.getChildNodes(node);
-        	for (JsonNode child : childNodes) {
+        for (Node node : nodes) {
+        	Collection<? extends Node> childNodes = helper.getChildNodes(node);
+        	for (Node child : childNodes) {
                 if (matchTag(child))
                 	result.add(child);	
 			}
         }
     }
 
-	private boolean matchTag(JsonNode child) {
+	private boolean matchTag(Node child) {
 		String tag = selector.getTagName();
-		return tagEquals(tag, helper.getName(child)) || tag.equals(Selector.UNIVERSAL_TAG);
+		return helper.nameMatches(child, tag);
 	}
 
 	/**
@@ -103,8 +103,8 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
      * @see <a href="http://www.w3.org/TR/css3-selectors/#adjacent-sibling-combinators">Adjacent sibling combinator</a>
      */
     private void addAdjacentSiblingElements() {
-        for (JsonNode node : nodes) {
-            JsonNode n = helper.getNextSibling(node);
+        for (Node node : nodes) {
+            Node n = helper.getNextSibling(node);
             if (n != null) {
                 if (matchTag(n))
                 	result.add(n);	
@@ -118,11 +118,11 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
      * @see <a href="http://www.w3.org/TR/css3-selectors/#general-sibling-combinators">General sibling combinator</a>
      */
     private void addGeneralSiblingElements() {
-        for (JsonNode node : nodes) {
-            JsonNode n = helper.getNextSibling(node);
+        for (Node node : nodes) {
+            Node n = helper.getNextSibling(node);
             while (n != null) {
                 String tag = selector.getTagName();
-                if (tagEquals(tag, helper.getName(n)) || tag.equals(Selector.UNIVERSAL_TAG)) {
+                if (helper.nameMatches(n, tag)) {
                     result.add(n);
                 }
                 
@@ -130,16 +130,4 @@ public class TagMatcher<JsonNode> extends AbstractChecker<JsonNode> {
             }
         }
     }
-
-    /**
-     * Determine if the two specified tag names are equal.
-     *
-     * @param tag1 A tag name.
-     * @param tag2 A tag name.
-     * @return <code>true</code> if the tag names are equal, <code>false</code> otherwise.
-     */
-    private boolean tagEquals(String tag1, String tag2) {
-    	return helper.namesEqual(tag1, tag2);
-    }
-
 }
