@@ -27,52 +27,50 @@ public class AttributeSpecifierChecker<Node> extends AbstractChecker<Node> {
 	    Collection<Node> result = new LinkedHashSet<Node>();
 	    for (Node node : nodes) {
 	        String name = specifier.getName();
-			Node attribute = helper.getAttribute(node, name);
+	        if (!helper.hasAttribute(node, name))
+	        	continue;
+			String attribute = helper.getAttribute(node, name);
 			
-			if (attribute==null)
-				continue;
-
 			// It just have to be present.
 			if (specifier.getValue() == null && attribute!=null) {
 				result.add(node);
 	            continue;
 	        }
 
-        	String value = helper.getValue(attribute);
-            String spec = specifier.getValue();
+        	String spec = specifier.getValue();
             switch (specifier.getMatch()) {
             case EXACT:
-                if (value.equals(spec)) {
+                if (attribute.equals(spec)) {
                     result.add(node);
                 }
                 
                 break;
             case HYPHEN:
-                if (value.equals(spec) || value.startsWith(spec + '-')) {
+                if (attribute.equals(spec) || attribute.startsWith(spec + '-')) {
                     result.add(node);
                 }
                 
                 break;
             case PREFIX:
-                if (value.startsWith(spec)) {
+                if (attribute.startsWith(spec)) {
                     result.add(node);
                 }
                 
                 break;
             case SUFFIX:
-                if (value.endsWith(spec)) {
+                if (attribute.endsWith(spec)) {
                     result.add(node);
                 }
                 
                 break;
             case CONTAINS:
-                if (value.contains(spec)) {
+                if (attribute.contains(spec)) {
                     result.add(node);
                 }
                 
                 break;
             case LIST:
-                for (String v : value.split("\\s+")) {
+                for (String v : attribute.split("\\s+")) {
                     if (v.equals(spec)) {
                         result.add(node);
                     }

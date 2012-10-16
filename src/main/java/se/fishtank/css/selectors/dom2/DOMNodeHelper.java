@@ -6,7 +6,6 @@ import org.w3c.dom.*;
 
 import se.fishtank.css.selectors.NodeSelectorException;
 import se.fishtank.css.selectors.Selector;
-import se.fishtank.css.selectors.dom.DOMHelper;
 import se.fishtank.css.selectors.generic.NodeHelper;
 import se.fishtank.css.util.Assert;
 
@@ -41,9 +40,15 @@ public class DOMNodeHelper implements NodeHelper<Node> {
 	}
 
 	@Override
-	public Node getAttribute(Node node, String name) {
+	public boolean hasAttribute(Node node, String name) {
 		NamedNodeMap map = node.getAttributes();
-		return map.getNamedItem(name);
+		return map.getNamedItem(name)!=null;
+	}
+
+	@Override
+	public String getAttribute(Node node, String name) {
+		NamedNodeMap map = node.getAttributes();
+		return map.getNamedItem(name).getNodeValue().trim();
 	}
 
 	@Override
@@ -160,9 +165,14 @@ public class DOMNodeHelper implements NodeHelper<Node> {
         if (root.getNodeType() == Node.DOCUMENT_NODE) {
             // Get the single element child of the document node.
             // There could be a doctype node and comment nodes that we must skip.
-            Element element = DOMHelper.getFirstChildElement(root);
-            Assert.notNull(element, "there should be a root element!");
-            return element;
+            NodeList children = root.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                    return (Element) children.item(i);
+                }
+            }
+            Assert.isTrue(false, "there should be a root element!");
+            return null;
         } else {
             Assert.isTrue(root.getNodeType() == Node.ELEMENT_NODE, "root must be a document or element node!");
             return root;
