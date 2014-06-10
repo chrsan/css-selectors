@@ -10,6 +10,7 @@ import se.fishtank.css.selectors.Selector;
 import se.fishtank.css.selectors.Specifier;
 import se.fishtank.css.selectors.specifier.AttributeSpecifier;
 import se.fishtank.css.selectors.specifier.NegationSpecifier;
+import se.fishtank.css.selectors.specifier.PseudoContainsSpecifier;
 import se.fishtank.css.selectors.specifier.PseudoClassSpecifier;
 import se.fishtank.css.selectors.specifier.PseudoNthSpecifier;
 import se.fishtank.css.util.Assert;
@@ -134,11 +135,15 @@ public class Scanner {
 	}
 	
 	action pseudo_class {
-            specifiers.add(new PseudoClassSpecifier(getSlice(mark, p)));	  
+        specifiers.add(new PseudoClassSpecifier(getSlice(mark, p)));	  
 	}
 	
 	action pseudo_nth_arg {
 	    specifiers.add(new PseudoNthSpecifier(pseudoNthClass, getSlice(mark, p)));
+	}
+	
+	action pseudo_contains_arg {
+		specifiers.add(new PseudoContainsSpecifier(getSlice(mark, p)));
 	}
 	
 	action pseudo_nth_class {

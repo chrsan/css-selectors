@@ -18,6 +18,8 @@ public class DOMNodeSelectorTest {
     private static final Map<String, Integer> testDataMap = new LinkedHashMap<String, Integer>();
     
     static {
+        testDataMap.put("h3:contains('palace')", 1);
+        testDataMap.put("h3:contains('in the palace')", 1);
         testDataMap.put("*", 251);
         testDataMap.put(":root", 1);
         testDataMap.put(":empty", 2);

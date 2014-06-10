@@ -24,8 +24,9 @@
     nth = ( [+\-]? digit* 'n' ( s* [+\-] s* digit+ )? ) | [+\-]? digit+ | 'odd' | 'even';
     pseudo_nth = ':' ( ident - 'not' ) >mark %pseudo_nth_class '(' s* nth >mark %pseudo_nth_arg <: s* ')';
     pseudo_class = ':' ident >mark %pseudo_class;
+    pseudo_contains = ':' 'contains' '(' s* string >mark %pseudo_contains_arg s* ')';
     pseudo_element = '::' ident;
-    pseudo = pseudo_element | pseudo_class | pseudo_nth;
+    pseudo = pseudo_element | pseudo_contains | pseudo_class | pseudo_nth;
     negation = ':not' '(' >_negation @{ fcall neg; };
     specifier = ( hash | clazz | attrib | pseudo | negation );
 
