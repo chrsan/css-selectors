@@ -1,5 +1,5 @@
 %%{
-    # Copyright (c) 2009-2012, Christer Sandberg
+    # Copyright (c) 2009-2014, Christer Sandberg
 
     machine ScannerCommon;
     

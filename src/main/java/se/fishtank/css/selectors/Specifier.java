@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012, Christer Sandberg
+ * Copyright (c) 2009-2014, Christer Sandberg
  */
 package se.fishtank.css.selectors;
 
@@ -14,7 +14,7 @@ public interface Specifier {
     /** The specifier type. */
     public static enum Type {
         ATTRIBUTE, PSEUDO, NEGATION
-    };
+    }
 
     /**
      * Get the specifier type.

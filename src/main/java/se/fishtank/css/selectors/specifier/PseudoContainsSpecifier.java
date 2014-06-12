@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, John Heintz
+ * Copyright (c) 2014, John Heintz and Christer Sandberg
  */
 package se.fishtank.css.selectors.specifier;
 
@@ -7,6 +7,10 @@ import se.fishtank.css.selectors.Specifier;
 import se.fishtank.css.util.Assert;
 
 /**
+ * An implementation of {@link Specifier} for the non standard pseudo-class @{code :contains}.
+ *
+ * @author John Heintz
+ * @author Christer Sandberg
  */
 public class PseudoContainsSpecifier implements Specifier {
     

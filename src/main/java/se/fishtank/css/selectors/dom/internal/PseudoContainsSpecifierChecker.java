@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, John Heintz
+ * Copyright (c) 2014, John Heintz and Christer Sandberg
  */
 package se.fishtank.css.selectors.dom.internal;
 
@@ -16,17 +16,15 @@ import se.fishtank.css.util.Assert;
  * A {@link NodeTraversalChecker} that check if a node matches
  * the {@linkplain PseudoContainsSpecifier pseudo-class specifier} set.
  * 
- * Checks for "a:contains('some text')" selector matches.
+ * Checks for {@code a:contains('some text')} selector matches.
  * 
  * @author John Heintz
+ * @author Christer Sandberg
  */
 public class PseudoContainsSpecifierChecker extends NodeTraversalChecker {
     
     /** The pseudo-class specifier to check against. */
     private final PseudoContainsSpecifier specifier;
-    
-    /** The result of the checks. */
-    private Set<Node> result;
     
     /**
      * Create a new instance.
@@ -45,7 +43,7 @@ public class PseudoContainsSpecifierChecker extends NodeTraversalChecker {
     public Set<Node> check(Set<Node> nodes, Node root) throws NodeSelectorException {
         Assert.notNull(nodes, "nodes is null!");
         Assert.notNull(root, "root is null!");
-        result = new LinkedHashSet<Node>();
+        LinkedHashSet<Node> result = new LinkedHashSet<Node>();
         String value = specifier.getValue();
         for (Node node : nodes) {
         	if (node.getTextContent().contains(value)) {
