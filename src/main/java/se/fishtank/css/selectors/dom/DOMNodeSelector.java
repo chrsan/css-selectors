@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012, Christer Sandberg
+ * Copyright (c) 2009-2014, Christer Sandberg
  */
 package se.fishtank.css.selectors.dom;
 
@@ -17,6 +17,7 @@ import se.fishtank.css.selectors.Specifier;
 import se.fishtank.css.selectors.dom.internal.AttributeSpecifierChecker;
 import se.fishtank.css.selectors.dom.internal.NodeTraversalChecker;
 import se.fishtank.css.selectors.dom.internal.PseudoClassSpecifierChecker;
+import se.fishtank.css.selectors.dom.internal.PseudoContainsSpecifierChecker;
 import se.fishtank.css.selectors.dom.internal.PseudoNthSpecifierChecker;
 import se.fishtank.css.selectors.dom.internal.TagChecker;
 import se.fishtank.css.selectors.scanner.Scanner;
@@ -24,6 +25,7 @@ import se.fishtank.css.selectors.scanner.ScannerException;
 import se.fishtank.css.selectors.specifier.AttributeSpecifier;
 import se.fishtank.css.selectors.specifier.NegationSpecifier;
 import se.fishtank.css.selectors.specifier.PseudoClassSpecifier;
+import se.fishtank.css.selectors.specifier.PseudoContainsSpecifier;
 import se.fishtank.css.selectors.specifier.PseudoNthSpecifier;
 import se.fishtank.css.util.Assert;
 
@@ -116,6 +118,8 @@ public class DOMNodeSelector implements NodeSelector<Node> {
                             checker = new PseudoClassSpecifierChecker((PseudoClassSpecifier) specifier);
                         } else if (specifier instanceof PseudoNthSpecifier) {
                             checker = new PseudoNthSpecifierChecker((PseudoNthSpecifier) specifier);
+                        } else if (specifier instanceof PseudoContainsSpecifier) {
+                        	checker = new PseudoContainsSpecifierChecker((PseudoContainsSpecifier) specifier);
                         }
                         
                         break;

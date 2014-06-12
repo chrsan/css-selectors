@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2014, Christer Sandberg
+ * Copyright (c) 2014, John Heintz and Christer Sandberg
  */
 package se.fishtank.css.selectors.specifier;
 
@@ -7,18 +7,12 @@ import se.fishtank.css.selectors.Specifier;
 import se.fishtank.css.util.Assert;
 
 /**
- * An implementation of {@link Specifier} for pseudo-classes.
- * <p/>
- * Note:
- * <br/>
- * The negation pseudo-class specifier is implemented by {@link NegationSpecifier}, and
- * the {@code nth-*} pseudo-classes are implemented by {@link PseudoNthSpecifier}.
- * 
- * @see <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">Pseudo-classes</a>
- * 
+ * An implementation of {@link Specifier} for the non standard pseudo-class @{code :contains}.
+ *
+ * @author John Heintz
  * @author Christer Sandberg
  */
-public class PseudoClassSpecifier implements Specifier {
+public class PseudoContainsSpecifier implements Specifier {
     
     /** The pseudo-class value. */
     private final String value;
@@ -28,9 +22,9 @@ public class PseudoClassSpecifier implements Specifier {
      * 
      * @param value The pseudo-class value.
      */
-    public PseudoClassSpecifier(String value) {
+    public PseudoContainsSpecifier(String value) {
         Assert.notNull(value, "value is null!");
-        this.value = value;
+        this.value = value.substring(1, value.length()-1); // take off outer single or double quote marks
     }
     
     /**
