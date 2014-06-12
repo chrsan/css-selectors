@@ -6,7 +6,9 @@ out there, and the one used in WebKit. Thanks to all the developers for inspirin
 The scanner/parser was made using the wonderful Ragel State Machine Compiler by Adrian Thurston.
 You can find out more about Ragel at http://www.complang.org/ragel/.
 
-I hope that you'll find this project useful!?
+I hope that you'll find this project useful.
+
+See the wiki for more information about supported selectors etc.
 
 Christer Sandberg
 
