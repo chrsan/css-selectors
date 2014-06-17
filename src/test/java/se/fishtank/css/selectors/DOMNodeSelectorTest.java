@@ -20,7 +20,7 @@ public class DOMNodeSelectorTest {
     static {
         testDataMap.put("h3:contains('palace')", 1);
         testDataMap.put("h3:contains('in the palace')", 1);
-        testDataMap.put("*", 251);
+        testDataMap.put("*", 252);
         testDataMap.put(":root", 1);
         testDataMap.put(":empty", 2);
         testDataMap.put("div:first-child", 51);
@@ -69,6 +69,7 @@ public class DOMNodeSelectorTest {
         testDataMap.put("head > :not(meta)", 2);
         testDataMap.put("head > :not(:last-child)", 2);
         testDataMap.put("div:not(div.dialog)", 192);
+        testDataMap.put("#speech1, #speech2", 2);
     }
     
     private final DOMNodeSelector nodeSelector;
@@ -103,5 +104,4 @@ public class DOMNodeSelectorTest {
         Node meta = nodeSelector.querySelector(":root > head > meta");
         Assert.assertEquals(meta, new DOMNodeSelector(meta).querySelector(":root"));
     }
-    
 }

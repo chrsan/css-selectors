@@ -27,7 +27,7 @@ public class Selector {
      * @see <a href="http://www.w3.org/TR/css3-selectors/#combinators">Combinators description</a>
      */
     public static enum Combinator {
-        DESCENDANT, CHILD, ADJACENT_SIBLING, GENERAL_SIBLING
+        INITIAL, DESCENDANT, CHILD, ADJACENT_SIBLING, GENERAL_SIBLING
     }
 
     /** Tag name. */
@@ -46,7 +46,7 @@ public class Selector {
      */
     public Selector() {
         this.tagName = UNIVERSAL_TAG;
-        this.combinator = Combinator.DESCENDANT;
+        this.combinator = Combinator.INITIAL;
         this.specifiers = null;
     }
     
@@ -69,7 +69,7 @@ public class Selector {
     /**
      * Create a new instance with the specified tag name and list of specifiers.
      * <p/>
-     * The combinator will be set to {@link Combinator#DESCENDANT}.
+     * The combinator will be set to {@link Combinator#INITIAL}.
      * 
      * @param tagName The tag name to set.
      * @param specifiers The list of specifiers to set.
@@ -77,7 +77,7 @@ public class Selector {
     public Selector(String tagName, List<Specifier> specifiers) {
         Assert.notNull(tagName, "tagName is null!");
         this.tagName = tagName;
-        this.combinator = Combinator.DESCENDANT;
+        this.combinator = Combinator.INITIAL;
         this.specifiers = specifiers;
     }
     

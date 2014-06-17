@@ -156,15 +156,11 @@ public class Scanner {
 	    if (isNegation) {
 	        negationSelector = new Selector(negationTagName, list);
 	    } else {
-	        if (combinator == null) {
-	            selector = new Selector(tagName, list);
-	        } else {
-	            selector = new Selector(tagName, combinator, list);
-	        }
+	        selector = new Selector(tagName, combinator, list);
 	        
 	        parts.add(selector);
 	        tagName = Selector.UNIVERSAL_TAG;
-	        combinator = null;
+	        combinator = Selector.Combinator.DESCENDANT;
 	    }
 	    
 	    negationTagName = Selector.UNIVERSAL_TAG;
@@ -212,7 +208,7 @@ public class Scanner {
 
 	    String tagName = Selector.UNIVERSAL_TAG;
 	    String negationTagName = Selector.UNIVERSAL_TAG;
-	    Selector.Combinator combinator = null;
+	    Selector.Combinator combinator = Selector.Combinator.INITIAL;
 	    List<Specifier> specifiers = new LinkedList<Specifier>();
 		
 		String attributeName = null;

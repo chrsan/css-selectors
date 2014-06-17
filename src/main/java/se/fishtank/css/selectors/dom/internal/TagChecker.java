@@ -60,6 +60,9 @@ public class TagChecker extends NodeTraversalChecker {
 
         result = new LinkedHashSet<Node>();
         switch (selector.getCombinator()) {
+        case INITIAL:
+        	addFirstAndDescendantElements();
+        	break;
         case DESCENDANT:
             addDescendantElements();
             break;
@@ -75,6 +78,37 @@ public class TagChecker extends NodeTraversalChecker {
         }
         
         return result;
+    }
+    
+    /**
+     * Add first and descendant elements.
+     * 
+     * @see <a href="http://www.w3.org/TR/css3-selectors/#descendant-combinators">Descendant combinator</a>
+     * 
+     * @throws NodeSelectorException If one of the nodes have an illegal type.
+     */
+    private void addFirstAndDescendantElements() throws NodeSelectorException {
+        for (Node node : nodes) {
+
+        	// add initial nodes for first part
+        	String selectorTagName = selector.getTagName();
+			if (tagEquals(selectorTagName, node.getNodeName()) || selectorTagName.equals(Selector.UNIVERSAL_TAG)) {
+                result.add(node);
+            }
+
+            NodeList nl;
+            if (node.getNodeType() == Node.DOCUMENT_NODE) {
+                nl = ((Document) node).getElementsByTagName(selectorTagName);
+            } else if (node.getNodeType() == Node.ELEMENT_NODE) {
+                nl = ((Element) node).getElementsByTagName(selectorTagName);
+            } else {
+                throw new NodeSelectorException("Only document and element nodes allowed!");
+            }
+            
+            for (int i = 0; i < nl.getLength(); i++) {
+                result.add(nl.item(i));
+            }
+        }
     }
     
     /**
