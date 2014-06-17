@@ -90,16 +90,16 @@ public class TagChecker extends NodeTraversalChecker {
     private void addFirstAndDescendantElements() throws NodeSelectorException {
         for (Node node : nodes) {
 
-        	// add initial nodes for first part
         	String selectorTagName = selector.getTagName();
-			if (tagEquals(selectorTagName, node.getNodeName()) || selectorTagName.equals(Selector.UNIVERSAL_TAG)) {
-                result.add(node);
-            }
 
             NodeList nl;
             if (node.getNodeType() == Node.DOCUMENT_NODE) {
                 nl = ((Document) node).getElementsByTagName(selectorTagName);
             } else if (node.getNodeType() == Node.ELEMENT_NODE) {
+    			if (tagEquals(selectorTagName, node.getNodeName()) || selectorTagName.equals(Selector.UNIVERSAL_TAG)) {
+                    result.add(node); // add current element if match
+                }
+            	
                 nl = ((Element) node).getElementsByTagName(selectorTagName);
             } else {
                 throw new NodeSelectorException("Only document and element nodes allowed!");

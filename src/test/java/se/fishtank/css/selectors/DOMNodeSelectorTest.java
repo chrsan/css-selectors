@@ -20,7 +20,7 @@ public class DOMNodeSelectorTest {
     static {
         testDataMap.put("h3:contains('palace')", 1);
         testDataMap.put("h3:contains('in the palace')", 1);
-        testDataMap.put("*", 252);
+        testDataMap.put("*", 251);
         testDataMap.put(":root", 1);
         testDataMap.put(":empty", 2);
         testDataMap.put("div:first-child", 51);
