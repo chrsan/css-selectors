@@ -1679,7 +1679,7 @@ static final int Scanner_en_neg = 190;
 static final int Scanner_en_main = 1;
 
 
-// line 191 "Scanner.java.rl"
+// line 187 "Scanner.java.rl"
 
 
     /**
@@ -1704,7 +1704,7 @@ static final int Scanner_en_main = 1;
 
         String tagName = Selector.UNIVERSAL_TAG;
         String negationTagName = Selector.UNIVERSAL_TAG;
-        Selector.Combinator combinator = null;
+        Selector.Combinator combinator = Selector.Combinator.INITIAL;
         List<Specifier> specifiers = new LinkedList<Specifier>();
 
         String attributeName = null;
@@ -1723,7 +1723,7 @@ static final int Scanner_en_main = 1;
 	top = 0;
 	}
 
-// line 228 "Scanner.java.rl"
+// line 224 "Scanner.java.rl"
         
 // line 1729 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
 	{
@@ -1950,15 +1950,11 @@ case 1:
         if (isNegation) {
             negationSelector = new Selector(negationTagName, list);
         } else {
-            if (combinator == null) {
-                selector = new Selector(tagName, list);
-            } else {
-                selector = new Selector(tagName, combinator, list);
-            }
-
+            selector = new Selector(tagName, combinator, list);
+        
             parts.add(selector);
             tagName = Selector.UNIVERSAL_TAG;
-            combinator = null;
+            combinator = Selector.Combinator.DESCENDANT;
         }
 
         negationTagName = Selector.UNIVERSAL_TAG;
@@ -1970,7 +1966,7 @@ case 1:
     }
 	break;
 	case 17:
-// line 178 "Scanner.java.rl"
+// line 174 "Scanner.java.rl"
 	{
         if (isNegation) {
             negationTagName = getSlice(mark, p);
@@ -1987,7 +1983,7 @@ case 1:
 // line 44 "ScannerCommon.rl"
 	{ {cs = stack[--top];_goto_targ = 2; if (true) continue _goto;} }
 	break;
-// line 1991 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
+// line 1987 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
 			}
 		}
 	}
@@ -2042,15 +2038,11 @@ case 4:
         if (isNegation) {
             negationSelector = new Selector(negationTagName, list);
         } else {
-            if (combinator == null) {
-                selector = new Selector(tagName, list);
-            } else {
-                selector = new Selector(tagName, combinator, list);
-            }
-
+            selector = new Selector(tagName, combinator, list);
+        
             parts.add(selector);
             tagName = Selector.UNIVERSAL_TAG;
-            combinator = null;
+            combinator = Selector.Combinator.DESCENDANT;
         }
 
         negationTagName = Selector.UNIVERSAL_TAG;
@@ -2062,7 +2054,7 @@ case 4:
     }
 	break;
 	case 17:
-// line 178 "Scanner.java.rl"
+// line 174 "Scanner.java.rl"
 	{
         if (isNegation) {
             negationTagName = getSlice(mark, p);
@@ -2071,7 +2063,7 @@ case 4:
         }
     }
 	break;
-// line 2075 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
+// line 2067 "../java/se/fishtank/css/selectors/scanner/Scanner.java"
 		}
 	}
 	}
@@ -2081,7 +2073,7 @@ case 5:
 	break; }
 	}
 
-// line 229 "Scanner.java.rl"
+// line 225 "Scanner.java.rl"
 
         if (cs < Scanner_first_final && p != pe) {
             // TODO: Better error reporting ;)
