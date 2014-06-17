@@ -46,7 +46,8 @@ public class PseudoContainsSpecifierChecker extends NodeTraversalChecker {
         LinkedHashSet<Node> result = new LinkedHashSet<Node>();
         String value = specifier.getValue();
         for (Node node : nodes) {
-        	if (node.getTextContent().contains(value)) {
+        	String textContent = node.getTextContent();
+			if (textContent!=null && textContent.contains(value)) {
         		result.add(node);
         	}
         }
