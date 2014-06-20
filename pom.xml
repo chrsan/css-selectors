@@ -9,7 +9,7 @@
 	<groupId>se.fishtank</groupId>
 	<artifactId>css-selectors</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<name>css-selectors</name>
 	<url>https://github.com/chrsan/css-selectors</url>
     <licenses>
