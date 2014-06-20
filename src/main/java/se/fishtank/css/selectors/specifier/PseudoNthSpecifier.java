@@ -63,6 +63,7 @@ public class PseudoNthSpecifier implements Specifier {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getType() {
         return Type.PSEUDO;
     }

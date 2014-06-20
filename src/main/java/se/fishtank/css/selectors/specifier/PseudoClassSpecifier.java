@@ -45,6 +45,7 @@ public class PseudoClassSpecifier implements Specifier {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getType() {
         return Type.PSEUDO;
     }

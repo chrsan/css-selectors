@@ -9,24 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.w3c.dom.Node;
-
-import se.fishtank.css.selectors.NodeSelector;
-import se.fishtank.css.selectors.NodeSelectorException;
-import se.fishtank.css.selectors.Selector;
-import se.fishtank.css.selectors.Specifier;
-import se.fishtank.css.selectors.dom.internal.AttributeSpecifierChecker;
-import se.fishtank.css.selectors.dom.internal.NodeTraversalChecker;
-import se.fishtank.css.selectors.dom.internal.PseudoClassSpecifierChecker;
-import se.fishtank.css.selectors.dom.internal.PseudoContainsSpecifierChecker;
-import se.fishtank.css.selectors.dom.internal.PseudoNthSpecifierChecker;
-import se.fishtank.css.selectors.dom.internal.TagChecker;
-import se.fishtank.css.selectors.scanner.Scanner;
-import se.fishtank.css.selectors.scanner.ScannerException;
-import se.fishtank.css.selectors.specifier.AttributeSpecifier;
-import se.fishtank.css.selectors.specifier.NegationSpecifier;
-import se.fishtank.css.selectors.specifier.PseudoClassSpecifier;
-import se.fishtank.css.selectors.specifier.PseudoContainsSpecifier;
-import se.fishtank.css.selectors.specifier.PseudoNthSpecifier;
+import se.fishtank.css.selectors.*;
+import se.fishtank.css.selectors.dom.internal.*;
+import se.fishtank.css.selectors.specifier.*;
 import se.fishtank.css.util.Assert;
 
 /**
@@ -61,30 +46,40 @@ public class DOMNodeSelector implements NodeSelector<Node> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Node querySelector(String selectors) throws NodeSelectorException {
+        return querySelector(Selectors.fromString(selectors));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Node querySelector(Selectors selectors) throws NodeSelectorException {
         Set<Node> result = querySelectorAll(selectors);
         if (result.isEmpty()) {
             return null;
         }
-        
+
         return result.iterator().next();
     }
-    
+
     /**
      * {@inheritDoc}
      */
+    @Override
     public Set<Node> querySelectorAll(String selectors) throws NodeSelectorException {
-        Assert.notNull(selectors, "selectors is null!");
-        List<List<Selector>> groups;
-        try {
-            Scanner scanner = new Scanner(selectors);
-            groups = scanner.scan();
-        } catch (ScannerException e) {
-            throw new NodeSelectorException(e);
-        }
+        return querySelectorAll(Selectors.fromString(selectors));
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Node> querySelectorAll(Selectors selectors) throws NodeSelectorException {
+        Assert.notNull(selectors, "selectors is null!");
         Set<Node> results = new LinkedHashSet<Node>();
-        for (List<Selector> parts : groups) {
+        for (List<Selector> parts : selectors.getGroups()) {
             Set<Node> result = check(parts);
             if (!result.isEmpty()) {
                 results.addAll(result);
@@ -93,7 +88,7 @@ public class DOMNodeSelector implements NodeSelector<Node> {
 
         return results;
     }
-    
+
     /**
      * Check the list of selector <em>parts</em> and return a set of nodes with the result.
      * 

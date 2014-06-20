@@ -40,6 +40,7 @@ public class PseudoElementSpecifier implements Specifier {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getType() {
         return Type.PSEUDO;
     }

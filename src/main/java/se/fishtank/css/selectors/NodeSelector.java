@@ -32,7 +32,16 @@ public interface NodeSelector<E> {
      * @throws NodeSelectorException On errors.
      */
     public E querySelector(String selectors) throws NodeSelectorException;
-    
+
+    /**
+     * Returns the first matching {@code E} node within the node's subtree.
+     *
+     * @param selectors A group of selectors to query.
+     * @return The first matching {@code E} node or {@code null}.
+     * @throws NodeSelectorException On errors.
+     */
+    public E querySelector(Selectors selectors) throws NodeSelectorException;
+
     /**
      * Returns a {@link Set} of all the matching {@code E} nodes within the node's subtree.
      * 
@@ -41,5 +50,14 @@ public interface NodeSelector<E> {
      * @throws NodeSelectorException On errors.
      */
     public Set<E> querySelectorAll(String selectors) throws NodeSelectorException;
-    
+
+    /**
+     * Returns a {@link Set} of all the matching {@code E} nodes within the node's subtree.
+     *
+     * @param selectors A group of selectors to query.
+     * @return All the matching {@code E} nodes or an empty {@link Set}.
+     * @throws NodeSelectorException On errors.
+     */
+    public Set<E> querySelectorAll(Selectors selectors) throws NodeSelectorException;
+
 }

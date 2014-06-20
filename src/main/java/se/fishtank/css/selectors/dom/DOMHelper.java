@@ -43,7 +43,7 @@ public class DOMHelper {
      * @param node The start node.
      * @return The next sibling element or {@code null}.
      */
-    public static final Element getNextSiblingElement(Node node) {
+    public static Element getNextSiblingElement(Node node) {
         Node n = node.getNextSibling();
         while (n != null && n.getNodeType() != Node.ELEMENT_NODE) {
             n = n.getNextSibling();
@@ -58,7 +58,7 @@ public class DOMHelper {
      * @param node The start node.
      * @return The previous sibling element or {@code null}.
      */
-    public static final Element getPreviousSiblingElement(Node node) {
+    public static Element getPreviousSiblingElement(Node node) {
         Node n = node.getPreviousSibling();
         while (n != null && n.getNodeType() != Node.ELEMENT_NODE) {
             n = n.getPreviousSibling();

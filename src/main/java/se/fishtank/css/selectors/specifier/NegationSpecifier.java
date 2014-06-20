@@ -41,6 +41,7 @@ public class NegationSpecifier implements Specifier {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getType() {
         return Type.NEGATION;
     }

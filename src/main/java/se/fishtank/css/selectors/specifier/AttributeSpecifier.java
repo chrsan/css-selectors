@@ -22,7 +22,7 @@ public class AttributeSpecifier implements Specifier {
     /** The type of match to perform for the attribute. */
     public static enum Match {
         EXACT, LIST, HYPHEN, PREFIX, SUFFIX, CONTAINS
-    };
+    }
 
     /** The name of the attribute. */
     private final String name;
@@ -94,6 +94,7 @@ public class AttributeSpecifier implements Specifier {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getType() {
         return Type.ATTRIBUTE;
     }
