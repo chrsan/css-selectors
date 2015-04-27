@@ -1,60 +1,143 @@
 /**
- * Copyright (c) 2014, Christer Sandberg
+ * Copyright (c) 2009-2015, Christer Sandberg
  */
 package se.fishtank.css.selectors;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import se.fishtank.css.selectors.scanner.Scanner;
-import se.fishtank.css.selectors.scanner.ScannerException;
-import se.fishtank.css.util.Assert;
+import se.fishtank.css.selectors.dom.DOMNode;
+import se.fishtank.css.selectors.dom.Traversal;
+import se.fishtank.css.selectors.dom.Visitor;
+import se.fishtank.css.selectors.matching.SelectorMatcher;
+import se.fishtank.css.selectors.matching.SimpleSelectorMatcher;
+import se.fishtank.css.selectors.parser.ParserException;
+import se.fishtank.css.selectors.parser.SelectorParser;
+import se.fishtank.css.selectors.selector.Selector;
+import se.fishtank.css.selectors.util.Reference;
 
 /**
- * Represents a list of selector groups.
+ * Simplified selectors API.
  *
  * @author Christer Sandberg
  */
-public class Selectors {
+public class Selectors<T, U extends DOMNode<U, T>> {
 
-    /** The list of selector groups. */
-    private final List<List<Selector>> groups;
+    /** The root node. */
+    private final U rootNode;
+
+    /** The selectors matcher. */
+    private final SelectorMatcher<U> selectorMatcher;
 
     /**
      * Create a new instance.
      *
-     * @param groups A list of selector groups.
+     * @param rootNode The root node.
      */
-    public Selectors(List<List<Selector>> groups) {
-        Assert.notNull(groups, "groups is null!");
-        this.groups = groups;
+    public Selectors(U rootNode) {
+        this(rootNode, null);
     }
 
     /**
-     * Returns the list of selector groups.
+     * Create a new instance.
      *
-     * @return The selector groups.
+     * @param rootNode The root node.
+     * @param simpleSelectorMatcher A simple selector matcher for custom matching.
      */
-    public List<List<Selector>> getGroups() {
-        return groups;
+    public Selectors(U rootNode, SimpleSelectorMatcher<U> simpleSelectorMatcher) {
+        this.rootNode = rootNode;
+        this.selectorMatcher = new SelectorMatcher<>(simpleSelectorMatcher);
     }
 
     /**
-     * Create an instance by parsing the given selectors string.
+     * Returns the root node.
      *
-     * @see se.fishtank.css.selectors.scanner.Scanner
+     * @return The root node.
+     */
+    public U getRootNode() {
+        return rootNode;
+    }
+
+    /**
+     * Returns the first matching node or {@code null} if match was found.
+     *
+     * @param selectors A list of selectors.
+     * @return The first matching node or {@code null}
+     */
+    public T querySelector(final List<Selector> selectors) {
+        final Reference<T> ref = new Reference<>();
+        final RuntimeException done = new RuntimeException();
+        try {
+            Traversal.traverseElements(rootNode, new Visitor<U>() {
+                @Override
+                public void visit(U node) {
+                    if (selectorMatcher.matchesSelectors(selectors, node)) {
+                        ref.referent = node.getUnderlying();
+                        throw done;
+                    }
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e != done) {
+                throw e;
+            }
+        }
+
+        return ref.referent;
+    }
+
+
+    /**
+     * Returns the first matching node or {@code null} if match was found.
+     *
+     * @param selectors A selectors string.
+     * @return The first matching node or {@code null}
+     * @throws ParserException On errors parsing the given selectors string.
+     */
+    public T querySelector(String selectors) throws ParserException {
+        return querySelector(parse(selectors));
+    }
+
+    /**
+     * Returns a list of all the matching nodes.
+     *
+     * @param selectors A list of selectors.
+     * @return A list of all the matching nodes.
+     */
+    public List<T> querySelectorAll(final List<Selector> selectors) {
+        final LinkedList<T> result = new LinkedList<>();
+        Traversal.traverseElements(rootNode, new Visitor<U>() {
+            @Override
+            public void visit(U node) {
+                if (selectorMatcher.matchesSelectors(selectors, node)) {
+                    result.add(node.getUnderlying());
+                }
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * Returns a list of all the matching nodes.
+     *
+     * @param selectors A selectors string.
+     * @return A list of all the matching nodes.
+     * @throws ParserException On errors parsing the given selectors string.
+     */
+    public List<T> querySelectorAll(String selectors) throws ParserException {
+        return querySelectorAll(parse(selectors));
+    }
+
+    /**
+     * Parses the given selectors string and returns a selector list.
      *
      * @param selectors The selectors string to parse.
-     * @return A new instance.
-     * @throws java.lang.IllegalArgumentException If the selectors string is invalid.
+     * @return A selector list.
+     * @throws ParserException On parsing errors.
      */
-    public static Selectors fromString(String selectors) {
-        Assert.notNull(selectors, "selectors is null!");
-        try {
-            Scanner scanner = new Scanner(selectors);
-            return new Selectors(scanner.scan());
-        } catch (ScannerException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public static List<Selector> parse(String selectors) throws ParserException {
+        return SelectorParser.parse(selectors);
     }
 
 }

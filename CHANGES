@@ -1,7 +1,15 @@
 css-selectors CHANGES
 =====================
 
+Version 2.0
+-----------
+
+ * Complete rewrite
+ * DOM node abstraction
+ * Customer simple selector matchers
+
 Version 1.0.3
+-------------
 
 Scanner:
 
