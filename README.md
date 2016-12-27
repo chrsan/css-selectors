@@ -17,7 +17,7 @@ For simple one off selector matching it's easiest to specify the selectors
 as a string:
 
 ```java
-Selectors selectors = new Selectors(new W3CMode(document));
+Selectors selectors = new Selectors(new W3CNode(document));
 List<Node> result = selectors.querySelectorAll("head > :not(meta)");
 Node firstDiv = selectors.querySelector("div");
 ```
@@ -27,7 +27,7 @@ selectors string into a selector list.
 
 ```java
 List<Selector> selectorList = Selectors.parse("head > :not(meta)");
-Selectors selectors = new Selectors(new W3CMode(document));
+Selectors selectors = new Selectors(new W3CNode(document));
 List<Node> result = selectors.querySelectorAll(selectorList);
 Node firstDiv = selectors.querySelector(selectorList);
 ```
@@ -60,7 +60,7 @@ SimpleSelectorMatcher<W3CNode> matcher = new SimpleSelectorMatcher<W3CNode>() {
     }
 };
 
-Selectors selectors = new Selectors(new W3CMode(document), matcher);
+Selectors selectors = new Selectors(new W3CNode(document), matcher);
 List<Node> result = selectors.querySelectorAll(":contains('Boom')");
 ```
 
